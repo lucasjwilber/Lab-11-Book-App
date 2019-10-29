@@ -50,9 +50,8 @@ function fixUrl(url) {
 
 function handleError(request, response, error) {
   console.error(error);
-  response.status(404).send('404, page not found.');
+  response.status(404).render('pages/error');
 }
-
 
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
