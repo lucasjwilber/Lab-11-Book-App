@@ -2,9 +2,10 @@
   "name": "Lab-11-Book-App",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -22,5 +23,6 @@
     "ejs": "^2.7.1",
     "express": "^4.17.1",
     "superagent": "^5.1.0"
-  }
+  },
+  "devDependencies": {}
 }
