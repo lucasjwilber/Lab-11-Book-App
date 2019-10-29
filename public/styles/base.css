@@ -1,13 +1,26 @@
 body {
-  background-color: coral;
+  background-color: lightblue;
+  width: 75%;
+  margin: auto;
+  font-size: 2em;
+  text-align: center;
+  font-family: 'Skranji', cursive;
 }
 h1 {
   background-color: teal;
   color: coral;
+  font-size: 2em;
 }
 p {
-  font-size: 3em;
+  font-size: 1.4em;
+  background-color: coral;
 }
-ol {
-  float: right;
+form {
+  background-color: teal;
+}
+form label {
+  font-size: 0.75em;
+}
+.error {
+  font-size: 3em;
 }

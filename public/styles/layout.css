@@ -1,0 +1,99 @@
+
+@media (max-width: 767px) {
+  h1, p {
+    padding: 10px;
+    font-family: 'Creepster', cursive;
+  }
+  form {
+    padding: 50px;
+  }
+  input {
+    margin-bottom: 20px;
+  }
+  section {
+    width: 75%;
+    border: 2px solid coral;
+    margin: auto;
+  }
+    div {
+      display: inline-block;
+    }
+      label {
+        width: 35%;
+      }
+  button {
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: coral;
+    width: 66%;
+    padding: 5px;
+    font-size: 0.5em;
+    font-family: 'Skranji', cursive;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 959px) {
+  h1, p {
+    padding: 10px;
+    font-family: 'Creepster', cursive;
+  }
+  form {
+    padding: 50px;
+  }
+  input {
+    margin-bottom: 20px;
+  }
+  section {
+    width: 75%;
+    border: 2px solid coral;
+    margin: auto;
+  }
+    div {
+      display: inline-block;
+    }
+      label {
+        width: 35%;
+      }
+  button {
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: coral;
+    width: 66%;
+    padding: 5px;
+    font-size: 0.5em;
+    font-family: 'Skranji', cursive;
+  }
+}
+
+@media (min-width: 960px) {
+  h1, p {
+    padding: 10px;
+    font-family: 'Creepster', cursive;
+  }
+  form {
+    padding: 50px;
+  }
+  input {
+    margin-bottom: 20px;
+  }
+  section {
+    width: 75%;
+    border: 2px solid coral;
+    margin: auto;
+  }
+    div {
+      display: inline-block;
+    }
+      label {
+        width: 35%;
+      }
+  button {
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: coral;
+    width: 66%;
+    padding: 5px;
+    font-size: 0.5em;
+    font-family: 'Skranji', cursive;
+  }
+}

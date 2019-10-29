@@ -20,10 +20,8 @@ function renderHTML(request, response) {
 }
 
 function handleSearch(request, response) {
-  console.log(request.body);
   const searchType = request.body.search[0];
   const searchText = request.body.search[1];
-  console.log(searchType, searchText);
   const url = `https://www.googleapis.com/books/v1/volumes?q=in${searchType}+${searchText}`;
 
   superagent.get(url)
@@ -50,9 +48,8 @@ function fixUrl(url) {
 
 function handleError(request, response, error) {
   console.error(error);
-  response.status(404).send('404, page not found.');
+  response.status(404).render('pages/error');
 }
-
 
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
