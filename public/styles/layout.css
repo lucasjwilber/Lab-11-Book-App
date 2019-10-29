@@ -6,25 +6,72 @@ body {
 }
 
 @media (max-width: 767px) {
+  h1, p {
+    padding: 10px;
+  }
+  form {
+    padding: 50px;
+  }
+  input {
+    margin-bottom: 20px;
+  }
+  section {
+    width: 75%;
+    border: 2px solid coral;
+    margin: auto;
+  }
+    div {
+      display: inline-block;
+    }
+      label {
+        width: 35%;
+      }
+  button {
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: coral;
+    width: 66%;
+    padding: 5px;
+    font-size: 0.5em;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 959px) {
   p {
     padding: 20px;
   }
   form {
     padding: 50px;
   }
+  input {
+    margin-bottom: 20px;
+  }
   section {
     width: 75%;
     margin: auto;
   }
-    section label {
+    label {
       width: 35%;
     }
-}
-
-@media (min-width: 768px) and (max-width: 959px) {
   
 }
 
 @media (min-width: 960px) {
+  p {
+    padding: 20px;
+  }
+  form {
+    padding: 50px;
+  }
+  input {
+    margin-bottom: 20px;
+  }
+  section {
+    width: 75%;
+    margin: auto;
+  }
+    label {
+      width: 35%;
+    }
   
 }

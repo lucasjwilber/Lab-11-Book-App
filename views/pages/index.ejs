@@ -21,12 +21,16 @@
   <form action="/search" method="post">
     <input type="text" name="search" placeholder="Enter a title or author">
     <section>
-      <label><span>Title</span>
-        <input type="radio" name="search" value="title" required>
-      </label>
-      <label><span>Author</span>
-        <input type="radio" name="search" value="author" required>
-      </label>
+      <div>
+        <label><span>Title</span>
+          <input type="radio" name="search" value="title" required>
+        </label>
+      </div>
+      <div>
+        <label><span>Author</span>
+          <input type="radio" name="search" value="author" required>
+        </label>
+      </div>
     </section>
     <button type="submit">Search the Google Books API</button>
   </form>
