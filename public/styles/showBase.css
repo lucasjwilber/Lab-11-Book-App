@@ -1,0 +1,23 @@
+body {
+  background-color:teal;
+  margin: 0 auto;
+}
+
+header {
+  width:100%;
+}
+
+@media (min-width: 660px) and (max-width: 959px) {
+  body {
+    background-color: aqua;
+    width: 660px;
+  }
+}
+
+
+@media (min-width: 960px) {
+  body {
+    background-color: aquamarine;
+    width: 960px;
+  }
+}
