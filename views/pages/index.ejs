@@ -12,11 +12,16 @@
 
   <p>Welcome to the site.</p>
 
-  <ol>
-    <li>one</li>
-    <li>two</li>
-    <li>three</li>
-  </ol>
+  <form action="/search" method="post">
+    <label><span>Title</span>
+      <input type="radio" name="search" value="title" required>
+      </label>
+      <label><span>Author</span>
+      <input type="radio" name="search" value="author" required>
+    </label>
+    <input type="text" name="search" placeholder="Enter a title or author">
+    <button type="submit">Search the Google Books API</button>
+  </form>
 
 
 
