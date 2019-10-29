@@ -1,5 +1,9 @@
 body {
   background-color: lightblue;
+  width: 75%;
+  margin: auto;
+  font-size: 2em;
+  text-align: center;
 }
 h1 {
   background-color: teal;
