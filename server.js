@@ -32,6 +32,10 @@ function handleSearch(request, response) {
       }).slice(0, 10);
 
       response.render('searches/show', {bookList: arrayOfResults,});
+    })
+    .catch(error => {
+      console.error(error);
+      response.status(500).render('pages/error');
     });
 }
 
