@@ -20,18 +20,20 @@ function renderHTML(request, response) {
 }
 
 function handleSearch(request, response) {
-  const searchType = request.body[0];
-  const searchText = request.body[1];
+  console.log(request.body);
+  const searchType = request.body.search[0];
+  const searchText = request.body.search[1];
+  console.log(searchType, searchText);
   const url = `https://www.googleapis.com/books/v1/volumes?q=in${searchType}+${searchText}`;
+
   superagent.get(url)
     .then(results => {
-      // console.log(results.body.items[0].volumeInfo);
+
       const arrayOfResults = results.body.items.map(book => {
-        console.log(book);
         return new Book(book.volumeInfo);
       }).slice(0, 10);
-      console.log(arrayOfResults);
-      response.status(200).send(arrayOfResults);
+
+      response.render('searches/show', {bookList: arrayOfResults,});
     });
 }
 
