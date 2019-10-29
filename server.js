@@ -8,19 +8,49 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(express.urlencoded({extended:true,}));
+app.use(express.urlencoded({ extended: true, }));
 app.use(express.static('public'));
 
-app.get('/', (request, response) => response.send('app is up'));
-app.get('/hello', renderHTML);
-
+app.get('/', renderHTML);
+app.post('/search', handleSearch)
+app.get('*', handleError);
 
 function renderHTML(request, response) {
   response.render('pages/index');
 }
 
+function handleSearch(request, response) {
+  const searchType = request.body[0];
+  const searchText = request.body[1];
+  const url = `https://www.googleapis.com/books/v1/volumes?q=in${searchType}+${searchText}`;
+  superagent.get(url)
+    .then(results => {
+      // console.log(results.body.items[0].volumeInfo);
+      const arrayOfResults = results.body.items.map(book => {
+        console.log(book);
+        return new Book(book.volumeInfo);
+      }).slice(0, 10);
+      console.log(arrayOfResults);
+      response.status(200).send(arrayOfResults);
+    });
+}
+
+function Book(obj) {
+  this.image = fixUrl(obj.imageLinks.thumbnail) || 'Image not found.';
+  this.title = obj.title || 'Title not found.';
+  this.author = obj.authors || obj.author || ['Author not found.'];
+  this.description = obj.description || 'Description not found.';
+}
+
+function fixUrl(url) {
+  return url.replace(/^http:/i, 'https:');
+}
+
+function handleError(request, response, error) {
+  console.error(error);
+  response.status(404).send('404, page not found.');
+}
 
 
 
-
-app.listen(PORT, () =>  console.log(`App is listening on port ${PORT}`) );
+app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
