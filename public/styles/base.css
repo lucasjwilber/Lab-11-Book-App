@@ -1,0 +1,13 @@
+body {
+  background-color: coral;
+}
+h1 {
+  background-color: teal;
+  color: coral;
+}
+p {
+  font-size: 3em;
+}
+ol {
+  float: right;
+}
