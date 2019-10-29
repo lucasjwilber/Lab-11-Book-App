@@ -20,3 +20,6 @@ form {
 form label {
   font-size: 0.75em;
 }
+.error {
+  font-size: 3em;
+}
