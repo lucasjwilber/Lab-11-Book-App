@@ -1,0 +1,30 @@
+body {
+  width: 75%;
+  margin: auto;
+  font-size: 2em;
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  p {
+    padding: 20px;
+  }
+  form {
+    padding: 50px;
+  }
+  section {
+    width: 75%;
+    margin: auto;
+  }
+    section label {
+      width: 35%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 959px) {
+  
+}
+
+@media (min-width: 960px) {
+  
+}
