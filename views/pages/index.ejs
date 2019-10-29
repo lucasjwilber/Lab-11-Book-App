@@ -1,29 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="styles/reset.css">
   <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/modules.css">
+  <link rel="stylesheet" href="styles/icons.css">
 </head>
-<body>
-  <h1>Hello WORLD</h1>
 
-  <p>Welcome to the site.</p>
+<body>
+  <h1>Welcome to the Book App</h1>
+
+  <p>Search by Title or Author:</p>
 
   <form action="/search" method="post">
-    <label><span>Title</span>
-      <input type="radio" name="search" value="title" required>
+    <input type="text" name="search" placeholder="Enter a title or author">
+    <section>
+      <label><span>Title</span>
+        <input type="radio" name="search" value="title" required>
       </label>
       <label><span>Author</span>
-      <input type="radio" name="search" value="author" required>
-    </label>
-    <input type="text" name="search" placeholder="Enter a title or author">
+        <input type="radio" name="search" value="author" required>
+      </label>
+    </section>
     <button type="submit">Search the Google Books API</button>
   </form>
 
 
 
 </body>
+
 </html>
