@@ -20,10 +20,8 @@ function renderHTML(request, response) {
 }
 
 function handleSearch(request, response) {
-  console.log(request.body);
   const searchType = request.body.search[0];
   const searchText = request.body.search[1];
-  console.log(searchType, searchText);
   const url = `https://www.googleapis.com/books/v1/volumes?q=in${searchType}+${searchText}`;
 
   superagent.get(url)
