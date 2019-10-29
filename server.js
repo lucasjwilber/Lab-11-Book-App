@@ -29,17 +29,21 @@ function handleSearch(request, response) {
       const arrayOfResults = results.body.items.map(book => {
         console.log(book);
         return new Book(book.volumeInfo);
-      });
+      }).slice(0, 10);
       console.log(arrayOfResults);
       response.status(200).send(arrayOfResults);
     });
 }
 
 function Book(obj) {
-  this.image = obj.imageLinks.thumbnail || 'Image not found.';
+  this.image = fixUrl(obj.imageLinks.thumbnail) || 'Image not found.';
   this.title = obj.title || 'Title not found.';
   this.author = obj.authors || obj.author || ['Author not found.'];
   this.description = obj.description || 'Description not found.';
+}
+
+function fixUrl(url) {
+  return url.replace(/^http:/i, 'https:');
 }
 
 function handleError(request, response, error) {
