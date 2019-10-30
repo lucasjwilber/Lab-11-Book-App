@@ -5,6 +5,9 @@ const express = require('express');
 const superagent = require('superagent');
 const PORT = process.env.PORT || 3001;
 const app = express();
+const pg = require('pg');
+const client = new pg.Client(process.env.DATABASE_URL);
+client.on('error', (error) => console.error(error));
 
 app.set('view engine', 'ejs');
 
@@ -13,10 +16,39 @@ app.use(express.static('public'));
 
 app.get('/', renderHTML);
 app.post('/search', handleSearch)
+app.get('/search', displaySearchBox);
+app.get('/search/:id', displayDetailView);
 app.get('*', handleError);
 
+
+function displaySearchBox(request, response) {
+  response.render('pages/searches/new');
+}
+
+
+function displayDetailView(request, response) {
+
+  //request.params.id
+
+  let sql = `SELECT * FROM books WHERE id=`
+
+
+  response.render('../books/detail', {})
+}
+
+
+
+
+
+
 function renderHTML(request, response) {
-  response.render('pages/index');
+  let sql = `SELECT * FROM books;`;
+  client.query(sql)
+    .then(results => {
+      response.render('pages/index', { bookList: results.rows, });
+    })
+    .catch(error => console.error(error));
+  // response.render('pages/index');
 }
 
 function handleSearch(request, response) {
@@ -31,7 +63,8 @@ function handleSearch(request, response) {
         return new Book(book.volumeInfo);
       }).slice(0, 10);
 
-      response.render('searches/show', {bookList: arrayOfResults,});
+      response.render('pages/searches/show', { bookList: arrayOfResults, });
+
     })
     .catch(error => {
       console.error(error);
@@ -40,9 +73,10 @@ function handleSearch(request, response) {
 }
 
 function Book(obj) {
-  this.image = fixUrl(obj.imageLinks.thumbnail) || 'Image not found.';
-  this.title = obj.title || 'Title not found.';
   this.author = obj.authors || obj.author || ['Author not found.'];
+  this.title = obj.title || 'Title not found.';
+  this.isbn = `${obj.industryIdentifiers[0].type} ${obj.industryIdentifiers[0].indentifier}` || 'ISBN not found';
+  this.image_url = fixUrl(obj.imageLinks.thumbnail) || 'Image not found.';
   this.description = obj.description || 'Description not found.';
 }
 
@@ -56,4 +90,11 @@ function handleError(request, response, error) {
 }
 
 
-app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
+client.connect()
+  .then(() => {
+    app.listen(PORT, () => console.log(`Connected to DB, app is listening on port ${PORT}`));
+  })
+  .catch((error) => {
+    console.error(error);
+    console.log('failed to connect to db');
+  });
