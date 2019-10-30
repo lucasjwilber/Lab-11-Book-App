@@ -17,7 +17,7 @@ app.use(express.static('public'));
 app.get('/', renderHTML);
 app.post('/search', handleSearch)
 app.get('/search', displaySearchBox);
-app.get('/search/:id', displayDetailView);
+app.get('/book/:id', displayDetailView);
 app.get('*', handleError);
 
 
@@ -28,12 +28,16 @@ function displaySearchBox(request, response) {
 
 function displayDetailView(request, response) {
 
-  //request.params.id
+  let bookID = request.params.id;
 
-  let sql = `SELECT * FROM books WHERE id=`
+  let sql = `SELECT * FROM books WHERE id=$1;`;
+  let safeValue = [bookID];
 
-
-  response.render('../books/detail', {})
+  client.query(sql, safeValue)
+    .then (result => {
+      let bookInfo = result.rows[0];
+      response.render('pages/books/show', {book: bookInfo,});
+    });
 }
 
 

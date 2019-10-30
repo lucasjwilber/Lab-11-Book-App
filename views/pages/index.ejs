@@ -22,7 +22,12 @@
 
   <h2># of books: <%= bookList.length %></h2>
   
-  <%- include ../partials/displayBook.ejs %>
+  <% bookList.forEach(book => { %>
+    <article>
+    <%- include ../partials/displayBook.ejs %>
+    <a href="/book/<%= book.id %>">Details</a>
+  </article>
+  <% }); %>
 
 
 </body>
