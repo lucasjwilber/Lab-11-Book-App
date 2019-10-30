@@ -9,20 +9,29 @@
   <title>Document</title>
 </head>
 
-  <body>
-    <header>
-      <nav>
-        <a href="/">HOME</a>
-      </nav>
-    </header>
-    
+<body>
+  <header>
+    <nav>
+      <a href="/">HOME</a>
+    </nav>
+  </header>
+
+  <main>
+    <%- include ../../partials/addForm.ejs %>
+
     <h1>Books Results</h1>
     <% bookList.forEach(book => { %>
-      <article>
-        <%- include ../../partials/displayBook.ejs %>
-      </article>
-    <% }); %>
+    <article>
+      <%- include ../../partials/displayBook.ejs %>
 
-  </body>
+      <button class="selectBook">Select</button>
+    </article>
+    <% }); %>
+  </main>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
 
 </html>
