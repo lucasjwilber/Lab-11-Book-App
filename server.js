@@ -17,12 +17,29 @@ app.use(express.static('public'));
 app.get('/', renderHTML);
 app.post('/search', handleSearch)
 app.get('/search', displaySearchBox);
+app.get('/search/:id', displayDetailView);
 app.get('*', handleError);
 
 
 function displaySearchBox(request, response) {
   response.render('pages/searches/new');
 }
+
+
+function displayDetailView(request, response) {
+
+  //request.params.id
+
+  let sql = `SELECT * FROM books WHERE id=`
+
+
+  response.render('../books/detail', {})
+}
+
+
+
+
+
 
 function renderHTML(request, response) {
   let sql = `SELECT * FROM books;`;
