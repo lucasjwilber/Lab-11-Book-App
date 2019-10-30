@@ -1,0 +1,8 @@
+
+    <section>
+      <%- include ../../partials/displayBook.ejs %>
+      <p><%= book.isbn %></p>
+      <% if (book.bookshelf) { %>
+        <p><%= book.bookshelf %></p>
+      <% } %>
+    </section>
