@@ -24,3 +24,10 @@ form label {
 .error {
   font-size: 3em;
 }
+.hide {
+  display: none;
+}
+#selectedBookForm {
+  position: fixed;
+  margin: auto;
+}
