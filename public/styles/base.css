@@ -27,3 +27,7 @@ form label {
 .hide {
   display: none;
 }
+#selectedBookForm {
+  position: fixed;
+  margin: auto;
+}

@@ -2,7 +2,8 @@
 
 $('.selectBook').on('click', bookSelected);
 
-function bookSelected(book) {
+function bookSelected() {
+
   let $selectedBook = ($(this).parent()[0].children);
   let $selectedImage = $selectedBook[0].src;
   let $selectedTitle = $selectedBook[1].textContent;
@@ -18,4 +19,10 @@ function bookSelected(book) {
   $('#formISBN').val($selectedISBN);
 
   $('#selectedBookForm').removeClass("hide");
+}
+
+$('#bookSubmitButton').on('click', bookSubmit);
+
+function bookSubmit(event) {
+  $('#selectedBookForm').addClass("hide");
 }

@@ -18,12 +18,32 @@ app.get('/', renderHTML);
 app.post('/search', handleSearch)
 app.get('/search', displaySearchBox);
 app.get('/book/:id', displayDetailView);
+app.post('/saveBook', addBookToDB)
 app.get('*', handleError);
 
 
 function displaySearchBox(request, response) {
   response.render('pages/searches/new');
 }
+
+
+function addBookToDB(request, response) {
+
+  let obj = request.body;
+  let sql = `INSERT INTO books (author, title, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)`;
+  let safeValues = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf];
+
+  client.query(sql, safeValues)
+    .then(results => {
+      client.query('select * from books').then( results => console.log("db results: ", results.rows));
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+
+}
+
 
 
 function displayDetailView(request, response) {
