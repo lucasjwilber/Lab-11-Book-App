@@ -1,4 +1,8 @@
 <form id="selectedBookForm" class="hide" action="saveBook" method="post">
+  <% if (override) { %>
+    <input type='hidden' name='_method' value='put'>
+    <input type='hidden' name='id' value='<%= book.id %>'>
+  <% } %>
   <img src="" id="formImage">
   <input type="text" id="formImageURL" name="image_url" required>
   <input type="text" id="formTitle" name="title" required>
