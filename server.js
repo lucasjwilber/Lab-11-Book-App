@@ -30,18 +30,20 @@ function displaySearchBox(request, response) {
 function addBookToDB(request, response) {
 
   let obj = request.body;
-  let sql = `INSERT INTO books (author, title, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6)`;
+  let sql = `INSERT INTO books (author, title, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;`;
+
   let safeValues = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf];
 
   client.query(sql, safeValues)
     .then(results => {
-      client.query('select * from books').then( results => console.log("db results: ", results.rows));
+      // client.query('select * from books')
+      //   .then(results => console.log("db results: ", results.rows));
+      // console.log(results.rows);
+      response.redirect(`/book/${results.rows[0].id}`);
     })
     .catch(error => {
       console.error(error);
     });
-
-
 }
 
 
@@ -54,9 +56,9 @@ function displayDetailView(request, response) {
   let safeValue = [bookID];
 
   client.query(sql, safeValue)
-    .then (result => {
+    .then(result => {
       let bookInfo = result.rows[0];
-      response.render('pages/books/show', {book: bookInfo,});
+      response.render('pages/books/show', { book: bookInfo, });
     });
 }
 
@@ -99,8 +101,10 @@ function handleSearch(request, response) {
 function Book(obj) {
   this.author = obj.authors || obj.author || ['Author not found.'];
   this.title = obj.title || 'Title not found.';
-  this.isbn = `${obj.industryIdentifiers[0].type} ${obj.industryIdentifiers[0].indentifier}` || 'ISBN not found';
-  this.image_url = fixUrl(obj.imageLinks.thumbnail) || 'Image not found.';
+  let isbn = obj.industryIdentifiers[0];
+  this.isbn = isbn ? `${isbn.type} ${isbn.identifier}` : 'ISBN not found';
+  if (!obj.imageLinks) { console.log(obj); }
+  this.image_url = obj.imageLinks ? fixUrl(obj.imageLinks.thumbnail) : 'Image not found.';
   this.description = obj.description || 'Description not found.';
 }
 
