@@ -3,9 +3,10 @@
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
+const methodOverride = require('method-override');
 const PORT = process.env.PORT || 3001;
 const app = express();
-const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', (error) => console.error(error));
 
@@ -14,16 +15,53 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true, }));
 app.use(express.static('public'));
 
+app.use(methodOverride((request, response) => {
+  if(request.body && typeof request.body === 'object' && '_method' in request.body){
+    // look in the urlencoded POST body and delete it
+    let method = request.body._method;
+    delete request.body._method;
+    return method;
+  }
+}));
+
 app.get('/', renderHTML);
-app.post('/search', handleSearch)
+
+app.post('/search', handleSearch);
 app.get('/search', displaySearchBox);
-app.get('/book/:id', displayDetailView);
+
+app.get('/:id', displayDetailView);
+
+app.post('/saveBook', addBookToDB);
+app.put('/saveBook', updateBook);
+app.delete('/saveBook', deleteBook);
+
 app.get('*', handleError);
 
 
 function displaySearchBox(request, response) {
   response.render('pages/searches/new');
 }
+
+
+function addBookToDB(request, response) {
+
+  let obj = request.body;
+  let sql = `INSERT INTO books (author, title, isbn, image_url, description, bookshelf) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id;`;
+
+  let safeValues = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf];
+
+  client.query(sql, safeValues)
+    .then(results => {
+      // client.query('select * from books')
+      //   .then(results => console.log("db results: ", results.rows));
+      // console.log(results.rows);
+      response.redirect(`/${results.rows[0].id}`);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
 
 
 function displayDetailView(request, response) {
@@ -34,15 +72,11 @@ function displayDetailView(request, response) {
   let safeValue = [bookID];
 
   client.query(sql, safeValue)
-    .then (result => {
+    .then(result => {
       let bookInfo = result.rows[0];
-      response.render('pages/books/show', {book: bookInfo,});
+      response.render('pages/books/show', { book: bookInfo, });
     });
 }
-
-
-
-
 
 
 function renderHTML(request, response) {
@@ -76,11 +110,47 @@ function handleSearch(request, response) {
     });
 }
 
+function updateBook (request, response) {
+
+  let obj = request.body;
+  let sql = `UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7 RETURNING id;`;
+
+  let safeValues = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf, obj.id];
+
+  client.query(sql, safeValues)
+    .then(results => {
+      // client.query('select * from books')
+      //   .then(results => console.log("db results: ", results.rows));
+      // console.log(results.rows);
+      response.redirect(`/${results.rows[0].id}`);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+function deleteBook (request, response) {
+  let bookID = [request.body.id];
+  console.log(bookID);
+  let sql = `DELETE FROM books WHERE id=$1;`;
+
+  client.query(sql, bookID)
+    .then(() => {
+      console.log('Deleated');
+      response.redirect('/');
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
 function Book(obj) {
   this.author = obj.authors || obj.author || ['Author not found.'];
   this.title = obj.title || 'Title not found.';
-  this.isbn = `${obj.industryIdentifiers[0].type} ${obj.industryIdentifiers[0].indentifier}` || 'ISBN not found';
-  this.image_url = fixUrl(obj.imageLinks.thumbnail) || 'Image not found.';
+  let isbn = obj.industryIdentifiers[0];
+  this.isbn = isbn ? `${isbn.type} ${isbn.identifier}` : 'ISBN not found';
+  if (!obj.imageLinks) { console.log(obj); }
+  this.image_url = obj.imageLinks ? fixUrl(obj.imageLinks.thumbnail) : 'Image not found.';
   this.description = obj.description || 'Description not found.';
 }
 

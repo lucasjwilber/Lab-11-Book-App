@@ -2,16 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <link rel="stylesheet" href="styles/reset.css">
-  <link rel="stylesheet" href="styles/base.css">
-  <link rel="stylesheet" href="styles/layout.css">
-  <link rel="stylesheet" href="styles/modules.css">
-  <link rel="stylesheet" href="styles/icons.css">
-  <link href="https://fonts.googleapis.com/css?family=Creepster|Skranji&display=swap" rel="stylesheet">
+  <%- include ../layout/head.ejs %>
 </head>
 
 <body>
@@ -25,7 +16,7 @@
   <% bookList.forEach(book => { %>
     <article>
     <%- include ../partials/displayBook.ejs %>
-    <a href="/book/<%= book.id %>">Details</a>
+    <a href="/<%= book.id %>">Details</a>
   </article>
   <% }); %>
 
