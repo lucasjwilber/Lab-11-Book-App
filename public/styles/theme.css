@@ -1,0 +1,24 @@
+p {
+  background-color: coral;
+  padding: 10px;
+  font-family: 'Creepster', cursive;
+}
+form {
+  background-color: teal;
+}
+h1 {
+  background-color: teal;
+  padding: 10px;
+  color: coral;
+  font-family: 'Creepster', cursive;
+}
+nav {
+  color: teal;
+  background-color: coral;
+}
+article {
+  background-color: coral;
+}
+button {
+  background-color: coral;
+}

@@ -26,3 +26,16 @@ $('#bookSubmitButton').on('click', bookSubmit);
 function bookSubmit(event) {
   $('#selectedBookForm').addClass("hide");
 }
+
+
+let color = 0;
+let color2 = 180;
+//resize-rainbow;
+setInterval(function () {
+  if (color >= 360) { color = 0; }
+  if (color2 >= 360) { color2 = 0; }
+  color += 1;
+  color2 += 1;
+  $('body').css('background-color', `hsl(${color}, 100%, 50%)`);
+  $('article').css('background-color', `hsl(${color2}, 100%, 50%)`);
+}, 5);
