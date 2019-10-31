@@ -3,9 +3,10 @@
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
+const pg = require('pg');
+const methodOverride = require('method-override');
 const PORT = process.env.PORT || 3001;
 const app = express();
-const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL);
 client.on('error', (error) => console.error(error));
 
@@ -14,11 +15,26 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true, }));
 app.use(express.static('public'));
 
+app.use(methodOverride((request, response) => {
+  if(request.body && typeof request.body === 'object' && '_method' in request.body){
+    // look in the urlencoded POST body and delete it
+    let method = request.body._method;
+    delete request.body._method;
+    return method;
+  }
+}));
+
 app.get('/', renderHTML);
-app.post('/search', handleSearch)
+
+app.post('/search', handleSearch);
 app.get('/search', displaySearchBox);
-app.get('/book/:id', displayDetailView);
-app.post('/saveBook', addBookToDB)
+
+app.get('/:id', displayDetailView);
+
+app.post('/saveBook', addBookToDB);
+app.put('/saveBook', updateBook);
+app.delete('/saveBook', deleteBook);
+
 app.get('*', handleError);
 
 
@@ -39,7 +55,7 @@ function addBookToDB(request, response) {
       // client.query('select * from books')
       //   .then(results => console.log("db results: ", results.rows));
       // console.log(results.rows);
-      response.redirect(`/book/${results.rows[0].id}`);
+      response.redirect(`/${results.rows[0].id}`);
     })
     .catch(error => {
       console.error(error);
@@ -61,10 +77,6 @@ function displayDetailView(request, response) {
       response.render('pages/books/show', { book: bookInfo, });
     });
 }
-
-
-
-
 
 
 function renderHTML(request, response) {
@@ -95,6 +107,40 @@ function handleSearch(request, response) {
     .catch(error => {
       console.error(error);
       response.status(500).render('pages/error');
+    });
+}
+
+function updateBook (request, response) {
+
+  let obj = request.body;
+  let sql = `UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7 RETURNING id;`;
+
+  let safeValues = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf, obj.id];
+
+  client.query(sql, safeValues)
+    .then(results => {
+      // client.query('select * from books')
+      //   .then(results => console.log("db results: ", results.rows));
+      // console.log(results.rows);
+      response.redirect(`/${results.rows[0].id}`);
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+function deleteBook (request, response) {
+  let bookID = [request.body.id];
+  console.log(bookID);
+  let sql = `DELETE FROM books WHERE id=$1;`;
+
+  client.query(sql, bookID)
+    .then(() => {
+      console.log('Deleated');
+      response.redirect('/');
+    })
+    .catch(error => {
+      console.error(error);
     });
 }
 

@@ -16,7 +16,7 @@
   <% bookList.forEach(book => { %>
     <article>
     <%- include ../partials/displayBook.ejs %>
-    <a href="/book/<%= book.id %>">Details</a>
+    <a href="/<%= book.id %>">Details</a>
   </article>
   <% }); %>
 

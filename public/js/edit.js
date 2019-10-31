@@ -1,6 +1,8 @@
 'use strict';
 
 $('#editBookButton').on('click', editBookDetails);
+$('#bookSubmitButton').on('submit', bookSubmit);
+$('bookDeleteButton').on('click', bookDelete);
 
 function editBookDetails() {
 
@@ -13,6 +15,8 @@ function editBookDetails() {
   let $selectedAuthor = $selectedBook[2].textContent;
   let $selectedDescription = $selectedBook[3].textContent;
   let $selectedISBN = $selectedBook[4].textContent;
+  let $selectedBookshelf = $selectedBook[5].textContent;
+
 
   $('#formImage').attr('src', $selectedImage);
   $('#formImageURL').val($selectedImage);
@@ -20,12 +24,16 @@ function editBookDetails() {
   $('#formAuthor').val($selectedAuthor);
   $('#formDescription').val($selectedDescription);
   $('#formISBN').val($selectedISBN);
+  $('#formBookShelf').val($selectedBookshelf);
 
   $('#selectedBookForm').removeClass("hide");
 }
 
-$('#bookSubmitButton').on('click', bookSubmit);
 
 function bookSubmit(event) {
   $('#selectedBookForm').addClass("hide");
+}
+
+function bookDelete () {
+
 }
