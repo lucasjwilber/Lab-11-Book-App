@@ -2,24 +2,15 @@ body {
   background-color: lightblue;
   width: 75%;
   margin: auto;
-  font-size: 2em;
   text-align: center;
   font-family: 'Skranji', cursive;
 }
+header nav a {
+  text-align: center;
+  margin: auto;
+}
 h1 {
-  background-color: teal;
-  color: coral;
-  font-size: 2em;
-}
-p {
-  font-size: 1.4em;
-  background-color: coral;
-}
-form {
-  background-color: teal;
-}
-form label {
-  font-size: 0.75em;
+  font-family: 'Creepster', cursive;
 }
 .error {
   font-size: 3em;
