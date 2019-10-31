@@ -17,9 +17,10 @@
     </header>
     
     <h1>Books Results</h1>
-    <% bookList.forEach(book => { %>
+    <% bookList.forEach((book) => { %>
       <article>
         <%- include ../../partials/displayBook.ejs %>
+        <button>Add To Database</button>
       </article>
     <% }); %>
 

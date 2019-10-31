@@ -1,6 +1,7 @@
 
 
-    <img src=<%= book.image_url %> alt="">
-    <H3><%= book.title %></H3>
-    <h4><%= book.author %></h4>
-    <p><%= book.description %></p>
+  <img src=<%= book.image_url %> alt="" id="image_url">
+  <H3 id='title'><%= book.title %></H3>
+  <h4 id="author"><%= book.author %></h4>
+  <p id="description"><%= book.description %></p>
+  <p id="isbn" class="hide"><%= book.isbn %></p>
