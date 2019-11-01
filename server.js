@@ -21,7 +21,7 @@ app.use(express.static('public'));
 
 //Method Override Function
 app.use(methodOverride((request, response) => {
-  if(request.body && typeof request.body === 'object' && '_method' in request.body){
+  if (request.body && typeof request.body === 'object' && '_method' in request.body) {
     let method = request.body._method;
     delete request.body._method;
     return method;
@@ -30,12 +30,9 @@ app.use(methodOverride((request, response) => {
 
 //All paths on the site
 app.get('/', renderHome);
-
 app.post('/search', handleSearch);
 app.get('/search', displaySearchBox);
-
 app.get('/:id', displayDetailView);
-
 app.post('/saveBook', addBookToDB);
 app.put('/saveBook', updateBook);
 app.delete('/saveBook', deleteBook);
@@ -59,31 +56,40 @@ function addBookToDB(request, response) {
   client.query(sql, safeValues)
     .then(results => {
       response.redirect(`/${results.rows[0].id}`);
-
     })
     .catch(error => {
       console.error(error);
-
     });
 }
 
 //Display the selected book in more detail
 function displayDetailView(request, response) {
 
+  console.log('running displayDetailView()');
+
   let bookID = request.params.id;
 
   let sql = `SELECT * FROM books WHERE id=$1;`;
   let safeValue = [bookID];
 
+  let bookInfo;
+
   client.query(sql, safeValue)
     .then(result => {
-      let bookInfo = result.rows[0];
-      response.render('pages/books/show', { book: bookInfo, override: true,});
+      bookInfo = result.rows[0];
+
+      // response.render('pages/books/show', { book: bookInfo, override: true, });
 
     })
     .catch(error => {
-      queryError(error)
+      queryError(error);
     });
+  client.query('SELECT DISTINCT bookshelf FROM books;')
+    .then(results => {
+      let bookShelves = results.rows;
+      response.render('pages/books/show', { book: bookInfo, bookShelves: bookShelves, override: true, });
+    });
+
 }
 
 //Display the home page for the website
@@ -109,37 +115,43 @@ function handleSearch(request, response) {
         return new Book(book.volumeInfo);
       }).slice(0, 10);
 
-      response.render('pages/searches/results', { bookList: arrayOfResults, override: false, });
-
+      client.query('SELECT DISTINCT bookshelf FROM books;')
+        .then(results => {
+          let bookShelves = results.rows;
+          response.render('pages/searches/results', { bookList: arrayOfResults, bookShelves: bookShelves, override: false, });
+        });
     })
+
+
     .catch(error => {
       console.error(error);
       response.status(500).render('pages/error');
-
     });
 }
 
-//Update the book selected in the details page and rerender the page with the new information
-function updateBook (request, response) {
 
+//Update the book selected in the details page and rerender the page with the new information
+function updateBook(request, response) {
+
+  console.log(request.body);
   let obj = request.body;
   let sql = `UPDATE books SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5, bookshelf=$6 WHERE id=$7 RETURNING id;`;
 
-  let safeValues = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, obj.bookshelf, obj.id];
+  //if the bookshelf input tag was used that gets saved, otherwise whatever option was selected
+  let bookshelf = obj.bookshelf.length > 0 ? obj.bookshelf : obj.selectedBookshelf;
+  let safeValues = [obj.author, obj.title, obj.isbn, obj.image_url, obj.description, bookshelf, obj.id];
 
   client.query(sql, safeValues)
     .then(results => {
       response.redirect(`/${results.rows[0].id}`);
-
     })
     .catch(error => {
       queryError(error, response);
-
     });
 }
 
 //Reomve the given book from the database
-function deleteBook (request, response) {
+function deleteBook(request, response) {
 
   let bookID = [request.body.id];
   let sql = `DELETE FROM books WHERE id=$1;`;
@@ -162,8 +174,8 @@ function Book(obj) {
 
   this.title = obj.title || 'Title not found.';
 
-  let isbn = obj.industryIdentifiers[0];
-  this.isbn = isbn ? `${isbn.type} ${isbn.identifier}` : 'ISBN not found';
+  if (obj.industryIdentifiers) { let isbn = obj.industryIdentifiers[0]; }
+  this.isbn = obj.isbn ? `${isbn.type} ${isbn.identifier}` : 'ISBN not found';
 
   if (!obj.imageLinks) { console.log(obj); }
   this.image_url = obj.imageLinks ? fixUrl(obj.imageLinks.thumbnail) : 'Image not found.';
