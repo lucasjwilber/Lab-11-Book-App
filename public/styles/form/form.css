@@ -1,0 +1,17 @@
+#selectedBookForm {
+  position: fixed;
+  margin: auto;
+}
+
+form{
+
+}
+
+@media (min-width: 660px) {
+  form {
+    padding: 50px;
+  }
+}
+@media (min-width: 960px) {
+
+}
