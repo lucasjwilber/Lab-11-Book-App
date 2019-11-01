@@ -21,7 +21,3 @@ div {
 .hide {
   display: none;
 }
-#selectedBookForm {
-  position: fixed;
-  margin: auto;
-}
