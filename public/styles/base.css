@@ -12,6 +12,9 @@ header nav a {
 h1 {
   font-family: 'Creepster', cursive;
 }
+div {
+  display: inline-block;
+}
 .error {
   font-size: 3em;
 }
