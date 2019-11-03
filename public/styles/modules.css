@@ -1,8 +1,8 @@
 article {
   width: 450px;
-  height: 525px;
+  height: 550px;
   display: grid;
-  grid-template-rows: 25px 200px 10px 40px 10px 30px 10px 150px 25px 25px;
+  grid-template-rows: 25px 200px 10px 40px 10px 30px 10px 150px 25px 50px;
   justify-items: center;
   margin-bottom: 10px;
   overflow: hidden;
@@ -24,7 +24,7 @@ article {
     overflow-y: scroll;
   }
   article>button {
-    grid-row: 9/10;
+    grid-row: 10/11;
   }
 
 input {
