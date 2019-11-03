@@ -11,35 +11,6 @@ nav {
 header>h2 {
   text-align: center;
 }
-article {
-  width: 450px;
-  height: 525px;
-  display: grid;
-  grid-template-rows: 25px 200px 10px 40px 10px 30px 10px 150px 25px 25px;
-  justify-items: center;
-  margin-bottom: 10px;
-  overflow: hidden;
-}
-  article>img {
-    grid-row: 2/3;
-
-    height: 100%;
-  }
-  article>h3 {
-    grid-row: 4/5;
-  }
-  article>h4 {
-    grid-row: 6/7;
-  }
-  article>p {
-    height: 150px;
-    grid-row: 8/9;
-    overflow-y: scroll;
-  }
-  article>button {
-    grid-row: 9/10;
-  }
-
 input {
   margin-bottom: 20px;
 }
@@ -53,13 +24,6 @@ section {
     label {
       width: 35%;
     }
-button {
-  margin-top: 10px;
-  border-radius: 10px;
-  width: 66%;
-  padding: 5px;
-  font-family: 'Skranji', cursive;
-}
 footer {
   position: absolute;
   bottom: 0;
@@ -75,33 +39,8 @@ footer {
     padding: 10px;
     font-family: 'Creepster', cursive;
   }
-
   article {
     width: 48%;
-  }
-  input {
-    margin-bottom: 20px;
-  }
-  section {
-    width: 75%;
-    margin: auto;
-  }
-    div {
-      display: inline-block;
-    }
-      label {
-        width: 35%;
-      }
-  button {
-    margin-top: 10px;
-    border-radius: 10px;
-    width: 66%;
-    padding: 5px;
-    font-family: 'Skranji', cursive;
-  }
-  footer {
-    position: absolute;
-    bottom: 0;
   }
 }
 
@@ -115,29 +54,5 @@ footer {
   }
   form {
     padding: 50px;
-  }
-  input {
-    margin-bottom: 20px;
-  }
-  section {
-    width: 75%;
-    margin: auto;
-  }
-    div {
-      display: inline-block;
-    }
-      label {
-        width: 35%;
-      }
-  button {
-    margin-top: 10px;
-    border-radius: 10px;
-    width: 66%;
-    padding: 5px;
-    font-family: 'Skranji', cursive;
-  }
-  footer {
-    position: absolute;
-    bottom: 0;
   }
 }
