@@ -68,8 +68,6 @@ article > p {
     padding: 0px;
     width: 66%;
   }
-  article > form > button {
-  }
 
 @media (min-width: 660px) {
   article {

@@ -35,6 +35,14 @@ APIs:
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
 -->
 
+# Colors:
+teal
+coral
+lightblue
+aqua
+black
+aquamarine
+
 **Number and name of feature: Set up new repo/heroku app**
 
 Estimate of time needed to complete: 20 minutes
