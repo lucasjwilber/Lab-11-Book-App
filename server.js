@@ -174,8 +174,9 @@ function Book(obj) {
 
   this.title = obj.title || 'Title not found.';
 
-  if (obj.industryIdentifiers) { let isbn = obj.industryIdentifiers[0]; }
-  this.isbn = obj.isbn ? `${isbn.type} ${isbn.identifier}` : 'ISBN not found';
+  let isbn;
+  if (obj.industryIdentifiers) isbn = obj.industryIdentifiers[0];
+  this.isbn = isbn ? `${isbn.type} ${isbn.identifier}` : 'ISBN not found';
 
   if (!obj.imageLinks) { console.log(obj); }
   this.image_url = obj.imageLinks ? fixUrl(obj.imageLinks.thumbnail) : 'Image not found.';
